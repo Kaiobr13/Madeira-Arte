@@ -1,13 +1,13 @@
-create table user(
-                    user_id int not null auto_increment primary key,                           -- Primary key, auto incrementing
-                    user_name varchar(120),                                                    -- User name
-                    user_email varchar(120) unique not null,                                   -- User email, it is unique and not null
-                    user_password varchar(60) not null,                                        -- User criptographed password
-                    user_phone varchar(15),                                                    -- User phone number
-                    user_place varchar(60),                                                    -- User address
-                    user_last_login datetime,                                                  -- User last login date
-                    user_register_date datetime default current_timestamp,                     -- User registration date
-                    class_id int not null                                                      -- User class, foreign key to class
+create table client(
+                    client_id int not null auto_increment primary key,                           -- Primary key, auto incrementing
+                    client_name varchar(120),                                                    -- user name
+                    client_email varchar(120) unique not null,                                   -- user email, it is unique and not null
+                    client_password varchar(60) not null,                                        -- user criptographed password
+                    client_phone varchar(15),                                                    -- user phone number
+                    client_place varchar(60),                                                    -- user address
+                    client_last_login datetime,                                                  -- user last login date
+                    client_register_date datetime default current_timestamp,                     -- user registration date
+                    class_id int not null                                                        -- user class, foreign key to class
 );
 
 create table class(
@@ -42,7 +42,7 @@ create table supplier(
 create table supplier_contacts(
                             sp_id int not null auto_increment primary key,                      -- Primary key, auto incrementing
                             supplier_id int not null,                                           -- Supplier id, foreign key to supplier
-                            user_id int not null                                                -- User id, foreign key to user
+                            client_id int not null,                                               -- client id, foreign key to client
                             contact_role text not null                                          -- Contact role
 );
 
@@ -50,7 +50,7 @@ create table orders(
                     order_id int not null auto_increment primary key,                          -- Primary key, auto incrementing
                     order_date date not null,                                                  -- Date when the order was made
                     order_status varchar(60) not null,                                         -- Order status
-                    user_id int not null,                                                      -- Must be a client id to work, foreign key to user
+                    client_id int not null,                                                      -- Must be a client id to work, foreign key to client
                     order_total decimal(10,2) not null                                         -- Total price of the order
 );
 
@@ -73,14 +73,14 @@ create table payments(
                     order_id int not null,                                                      -- Order id, foreign key to order
                     payment_method varchar(60) not null,                                        -- Payment method
                     payment_date date not null,                                                 -- Date when the payment was made
-                    payment_status varchar(60) not null                                         -- Payment status
+                    payment_status varchar(60) not null,                                        -- Payment status
                     payment_total decimal(10,2) not null                                        -- Total price of the payment
 );
 
 -- Foreign Keys Constraints
 
-alter table user 
-add constraint user_fk_class
+alter table client 
+add constraint client_fk_class
 foreign key (class_id) references class(class_id)
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -94,19 +94,19 @@ add constraint product_fk_supplier
 foreign key (supplier_id) references supplier(supplier_id)
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
-alter table supplier_contact
+alter table supplier_contacts
 add constraint supplier_contact_fk_supplier
 foreign key (supplier_id) references supplier(supplier_id)
 ON DELETE CASCADE;
 
-alter table supplier_contact
-add constraint supplier_contact_fk_user
-foreign key (user_id) references user(user_id)
+alter table supplier_contacts
+add constraint supplier_contact_fk_client
+foreign key (client_id) references client(client_id)
 ON DELETE CASCADE;
 
 alter table orders
-add constraint orders_fk_user
-foreign key (user_id) references user(user_id)
+add constraint orders_fk_client
+foreign key (client_id) references client(client_id)
 ON DELETE RESTRICT ON UPDATE CASCADE;
 
 alter table order_details
