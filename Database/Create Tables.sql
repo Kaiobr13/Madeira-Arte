@@ -18,11 +18,18 @@ create table class(
 create table product(
                     product_id int not null auto_increment primary key,                        -- Primary key, auto incrementing
                     product_name varchar(120),                                                 -- Product name
-                    product_description text,                                                  -- Product description
                     category_id int not null,                                                  -- Product category, foreign key to category 
                     product_price decimal(10,2) not null,                                      -- Product value
                     stock_quantity int not null,                                               -- Product quantity
-                    supplier_id int not null                                                   -- Product supplier, foreign key to supplier
+                    supplier_id int not null,                                                  -- Product supplier, foreign key to supplier
+                    image_id int not null                                                      -- Product image, foreign key to image
+);
+
+CREATE TABLE images (
+    image_id int auto_increment primary key,                                                   -- Primary key, auto incrementing
+    image_name varchar(255) not null,                                                          -- Image name
+    image_path varchar(500) not null,                                                          -- Image path
+    image_create_date timestamp default current_timestamp                                      -- Image creation date
 );
 
 create table category(
@@ -36,13 +43,13 @@ create table supplier(
                     supplier_contact varchar(30),                                              -- Name of the representative
                     supplier_address text,                                                     -- Supplier address
                     supplier_email varchar(120) unique not null,                               -- Supplier email, it is unique and not null
-                    supplier_phone varchar(15)                                                 -- Supplier phone
+                    supplier_phone varchar(30)                                                 -- Supplier phone
 );
 
 create table supplier_contacts(
                             sp_id int not null auto_increment primary key,                      -- Primary key, auto incrementing
                             supplier_id int not null,                                           -- Supplier id, foreign key to supplier
-                            client_id int not null,                                               -- client id, foreign key to client
+                            client_id int not null,                                             -- client id, foreign key to client
                             contact_role text not null                                          -- Contact role
 );
 
@@ -50,7 +57,7 @@ create table orders(
                     order_id int not null auto_increment primary key,                          -- Primary key, auto incrementing
                     order_date date not null,                                                  -- Date when the order was made
                     order_status varchar(60) not null,                                         -- Order status
-                    client_id int not null,                                                      -- Must be a client id to work, foreign key to client
+                    client_id int not null,                                                    -- Must be a client id to work, foreign key to client
                     order_total decimal(10,2) not null                                         -- Total price of the order
 );
 
@@ -74,7 +81,7 @@ create table payments(
                     payment_method varchar(60) not null,                                        -- Payment method
                     payment_date date not null,                                                 -- Date when the payment was made
                     payment_status varchar(60) not null,                                        -- Payment status
-                    payment_total decimal(10,2) not null                                        -- Total price of the payment
+                    payment_total decimal(10,2) not null                                        -- Total price of the payment + delivery 
 );
 
 -- Foreign Keys Constraints
