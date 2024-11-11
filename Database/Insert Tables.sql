@@ -1,19 +1,19 @@
-insert into class(class_name)
+insert into class(cla_name)
 values ('Admin'),
        ('Supplier'),
        ('User');
 
-insert into client(client_name, client_email, client_password, class_id)
+insert into client(cli_name, cli_email, cli_password, cli_cla_id)
 values ('admin', 'admin', 'admin', 1);
 
-insert into supplier(supplier_name, supplier_contact, supplier_address, supplier_email, supplier_phone,sup_class_id)
+insert into supplier(sup_name, sup_contact, sup_address, sup_email, sup_phone, sup_cla_id)
 values ('Madeiras do Norte Lda.', 'João Silva', 'Porto', 'info@madeirasdonorte.pt', '+351 22 123 4567', 2),
        ('Ferragens Lisboa', 'Maria Santos', 'Lisboa', 'contato@ferragenslisboa.pt', '+351 21 234 5678', 2),
        ('TintaVerde', 'Antonio Ferreira', 'Coimbra', 'comercial@tintaverde.pt', '+351 239 456 789', 2),
        ('Tecelagem Portuguesa', 'Sofia Almeida', 'Braga', 'tecelagem@portugesa.pt', '+351 235 789 012', 2),
        ('EquipMadeiras', 'Ricardo Mendes', 'Faro', 'suporte@equipmadeira.pt', '+351 289 123 456', 2);
 
-insert into category (category_name)
+insert into category (cat_name)
 values 
     ('Mesas'),
     ('Cadeiras'), 
@@ -46,7 +46,7 @@ values
     (22),
     (30);
 
-insert into product (product_name, prod_category_id, product_price, prod_supplier_id, prod_stock_id)
+insert into product (prod_name, prod_cat_id, prod_price, prod_sup_id, prod_stock_id)
 values 
     ('Mesa de Jantar Rústica Black Mate', 1, 300.00, 1, 1),
     ('Mesa de Centro Vintage Tampo Duplo', 1, 150.50, 1, 2),
