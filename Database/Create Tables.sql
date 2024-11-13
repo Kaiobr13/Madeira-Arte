@@ -3,7 +3,7 @@ create table client(
                     cli_name varchar(120),                                                  -- user name
                     cli_email varchar(120) unique not null,                                 -- user email, it is unique and not null
                     cli_password varchar(60) not null,                                      -- user criptographed password
-                    cli_phone varchar(15),                                                  -- user phone number
+                    cli_phone varchar(30    ),                                                  -- user phone number
                     cli_place varchar(60),                                                  -- user address
                     cli_last_login datetime,                                                -- user last login date
                     cli_register_date datetime default current_timestamp,                   -- user registration date
@@ -46,7 +46,7 @@ create table images (
 );
 
 create table prodimg (
-                     prodimg int not null auto_increment primary key,                         -- Primary key, auto incrementing
+                     prodimg_id int not null auto_increment primary key,                         -- Primary key, auto incrementing
                      pi_prod_id int not null,                                                 -- Foreign key to product
                      pi_img_id int not null                                                   -- Foreign key to image                    
 );
@@ -70,7 +70,7 @@ create table order_details(
                     det_ord_id int not null,                                               -- Order id, foreign key to order
                     det_prod_id int not null,                                              -- Product id, foreign key to product
                     det_quantity int not null,                                             -- Quantity of each product
-                    product_unit_price decimal(10,2) not null                              -- Price of each product
+                    prod_unit_price decimal(10,2) not null                              -- Price of each product
 );
 
 create table stocks(
