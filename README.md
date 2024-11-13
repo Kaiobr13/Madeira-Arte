@@ -8,9 +8,9 @@ Projeto em desenvolvimento para o fim do semestre.
 - [Implementação das UCs](#implementação-das-ucs)
 
 ## Introdução
-**Nome do Projeto: Madeira & Arte**
+**Nome do Projeto: Pure Wood**
 
-A loja Madeira & Arte é um espaço dedicado à venda de produtos artesanais de alta qualidade, feitos em madeira. Nosso foco está em oferecer peças exclusivas, sustentáveis e com design diferenciado, que vão desde móveis até objetos decorativos.
+A loja Pure Wood é um espaço dedicado à venda de produtos artesanais de alta qualidade, feitos em madeira. Nosso foco está em oferecer peças exclusivas, sustentáveis e com design diferenciado, que vão desde móveis até objetos decorativos.
 
 ## Objetivos
 
