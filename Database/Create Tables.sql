@@ -3,7 +3,7 @@ create table client(
                     cli_name varchar(120),                                                  -- user name
                     cli_email varchar(120) unique not null,                                 -- user email, it is unique and not null
                     cli_password varchar(60) not null,                                      -- user criptographed password
-                    cli_phone varchar(30    ),                                                  -- user phone number
+                    cli_phone varchar(30),                                                  -- user phone number
                     cli_place varchar(60),                                                  -- user address
                     cli_last_login datetime,                                                -- user last login date
                     cli_register_date datetime default current_timestamp,                   -- user registration date
