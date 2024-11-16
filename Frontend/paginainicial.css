@@ -120,3 +120,62 @@ footer p {
     font-size: 14px;
     
 }
+
+
+
+
+li a,
+.dropbtn {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  width: fit-content;
+
+}
+
+li a:hover,
+.dropdown:hover .dropbtn {
+  background-color: #111;
+  width: fit-content;
+
+}
+
+li.dropdown {
+  width: fit-content;
+
+  float: right;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: fit-content;
+  background-color: #EB7131;
+  min-width: fit-content;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  width: fit-content;
+  padding: 10px 9px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+
+.dropdown-content a:hover {
+  width: fit-content;
+
+  background-color: black;
+}
+
+.dropdown:hover .dropdown-content {
+  width: fit-content;
+  display: block;
+}

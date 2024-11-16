@@ -55,11 +55,13 @@ function readCodeFor(field, config, options, fieldNum) {
       return 'packet.readLengthCodedString("ascii");';
     case Types.GEOMETRY:
       return 'packet.parseGeometryValue();';
+    case Types.VECTOR:
+      return 'packet.parseVector()';  
     case Types.JSON:
       // Since for JSON columns mysql always returns charset 63 (BINARY),
       // we have to handle it according to JSON specs and use "utf8",
       // see https://github.com/sidorares/node-mysql2/issues/409
-      return 'JSON.parse(packet.readLengthCodedString("utf8"));';
+      return config.jsonStrings ? 'packet.readLengthCodedString("utf8")' : 'JSON.parse(packet.readLengthCodedString("utf8"));';
     case Types.LONGLONG:
       if (!supportBigNumbers) {
         return unsigned
@@ -100,6 +102,24 @@ function compile(fields, options, config) {
           console.warn(
             `typeCast: JSON column "${field.name}" is interpreted as BINARY by default, recommended to manually set utf8 encoding: \`field.string("utf8")\``,
           );
+        }
+
+        if (
+          [Types.DATETIME, Types.NEWDATE, Types.TIMESTAMP, Types.DATE].includes(
+            field.columnType,
+          )
+        ) {
+          return packet.readDateTimeString(parseInt(field.decimals, 10));
+        }
+
+        if (field.columnType === Types.TINY) {
+          const unsigned = field.flags & FieldFlags.UNSIGNED;
+
+          return String(unsigned ? packet.readInt8() : packet.readSInt8());
+        }
+
+        if (field.columnType === Types.TIME) {
+          return packet.readTimeString();
         }
 
         return packet.readLengthCodedString(encoding);
@@ -145,22 +165,14 @@ function compile(fields, options, config) {
   let tableName = '';
 
   for (let i = 0; i < fields.length; i++) {
-    fieldName = helpers.srcEscape(fields[i].name);
-
-    if (helpers.privateObjectProps.has(fields[i].name)) {
-      throw new Error(
-        `The field name (${fieldName}) can't be the same as an object's private property.`,
-      );
-    }
-
-    parserFn(`// ${fieldName}: ${typeNames[fields[i].columnType]}`);
+    fieldName = helpers.fieldEscape(fields[i].name);
+    // parserFn(`// ${fieldName}: ${typeNames[fields[i].columnType]}`);
 
     if (typeof options.nestTables === 'string') {
-      lvalue = `result[${helpers.srcEscape(
-        fields[i].table + options.nestTables + fields[i].name,
-      )}]`;
+      lvalue = `result[${helpers.fieldEscape(fields[i].table + options.nestTables + fields[i].name)}]`;
     } else if (options.nestTables === true) {
-      tableName = helpers.srcEscape(fields[i].table);
+      tableName = helpers.fieldEscape(fields[i].table);
+
       parserFn(`if (!result[${tableName}]) result[${tableName}] = {};`);
       lvalue = `result[${tableName}][${fieldName}]`;
     } else if (options.rowsAsArray) {
@@ -189,7 +201,6 @@ function compile(fields, options, config) {
       }
     }
     parserFn('}');
-
 
     currentFieldNullBit *= 2;
     if (currentFieldNullBit === 0x100) {

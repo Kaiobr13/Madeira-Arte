@@ -40,7 +40,9 @@ router.get('/', async function(req, res, next) {
 /* POST  user_client */
 router.post('/addclient', async function(req, res, next) {
     try {
-      res.json(await clients.registerCliente(req.body));
+      var s = await clients.registerCliente(req.body);
+      console.log(s);
+      res.json(s);
     } catch (err) {
       console.error(`Error while creating user`, err.message);
       next(err);
