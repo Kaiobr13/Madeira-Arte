@@ -99,9 +99,7 @@ async function registerCliente(user) {
     var date = new Date();
     message = "Registo efectuado com sucesso!";
     //adicionar logs
-    logmessage = `'${user.name} registou-se com o Email: ${user.email} a ${date
-      .getTime()
-      .toString()}'`;
+    logmessage = `${user.name} registou-se com o Email: ${user.email} a ${date.getTime().toString()}`;
     CreateLog(logmessage);
     // Gerar um token
     const token = jwt.sign(
