@@ -23,7 +23,7 @@ async function login(user) {
   try {
     // Utilizar prepared statements para evitar injeção de SQL
     const result = await db.query(
-      `SELECT client_id, client_name, client_password, client_email, class_id FROM client WHERE client_email = ?`,
+      `SELECT cli_id, cli_name, cli_password, cli_email, cli_cla_id FROM client WHERE cli_email = ?`,
       [user.email]
     );
 
@@ -33,7 +33,7 @@ async function login(user) {
       const userRecord = result[0];
 
       // Comparar a senha diretamente (sem criptografia)
-      const passwordIsValid = userRecord.client_password === user.password;
+      const passwordIsValid = userRecord.cli_password === user.password
       date = new Date();
       if (passwordIsValid) {
         // Criar uma mensagem de log (certifique-se de que CreateLog está definida)
@@ -79,7 +79,7 @@ async function CreateLog(log_message) {
 async function registerCliente(user) {
   // Verificar se o email já existe
   const emailCheck = await db.query(
-    `SELECT client_id FROM client WHERE client_email = '${user.email}'`
+    `SELECT cli_id FROM client WHERE cli_email = '${user.email}'`
   );
 
   if (emailCheck.length > 0) {
@@ -88,7 +88,7 @@ async function registerCliente(user) {
 
   // Inserir o novo usuário
   const result = await db.query(
-    `INSERT INTO client(client_name, client_email, client_password, class_id, client_place)
+    `INSERT INTO client(cli_name, cli_email, cli_password, cli_cla_id, cli_place)
       VALUES 
       ('${user.name}', '${user.email}', '${user.password}', 3,'${user.place}')`
   );

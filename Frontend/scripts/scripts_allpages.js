@@ -1,7 +1,6 @@
 $(document).ready(function () {
     var loginOpc = $('#loginbtn');
     var sair =$('#logoutbtn');
-
     if(checkCookieLogin())
     {
         loginOpc.text("Perfil");

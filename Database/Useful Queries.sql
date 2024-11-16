@@ -17,3 +17,6 @@ select cli_name, det_id, prod_id from client
 inner join orders on ord_cli_id = cli_id
 inner join order_details on ord_id = det_ord_id
 inner join product on det_prod_id = prod_id;
+
+
+module.exports = router;
