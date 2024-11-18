@@ -68,4 +68,4 @@ values
     ('Estante para Livros', 3, 180.00, 4, 18),
     ('Banco de Jardim', 6, 120.00, 5, 19),
     ('Caixa Organizadora de Madeira', 6, 25.50, 5, 20),
-    ('Suporte para Vasos', 6, 15.00, 5, 21);
+    ('Suporte para Vasos', 6, 15.00, 5, 21);   

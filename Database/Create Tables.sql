@@ -39,17 +39,17 @@ create table product(
                     prod_stock_id int not null                                         -- Product stock, foreign key to stock
 );
 
-create table images (
-                     img_id int auto_increment primary key,                                   -- Primary key, auto incrementing
-                     img_name varchar(255) not null,                                          -- Image name
-                     img_path varchar(500) not null                                           -- Image path
-);
+-- create table images (
+--                      img_id int auto_increment primary key,                                   -- Primary key, auto incrementing
+--                      img_name varchar(255) not null,                                          -- Image name
+--                      img_path varchar(500) not null                                           -- Image path
+-- );
 
-create table prodimg (
-                     prodimg_id int not null auto_increment primary key,                         -- Primary key, auto incrementing
-                     pi_prod_id int not null,                                                 -- Foreign key to product
-                     pi_img_id int not null                                                   -- Foreign key to image                    
-);
+-- create table prodimg (
+--                      prodimg_id int not null auto_increment primary key,                         -- Primary key, auto incrementing
+--                      pi_prod_id int not null,                                                 -- Foreign key to product
+--                      pi_img_id int not null                                                   -- Foreign key to image                    
+-- );
 
 create table supplier_contacts(
                     sp_id int not null auto_increment primary key,                             -- Primary key, auto incrementing
