@@ -19,6 +19,23 @@ async function getRecomendedProducts(page = 1, clientid) {
   };
 }
 
+async function getProducts(page = 1) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  category = 4; //categoria do produdo a recomendar
+  const rows = await db.query(
+    `SELECT * FROM product`
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = { page };
+
+  return {
+    data,
+    meta,
+  };
+}
+
+
 module.exports = {
   getRecomendedProducts,
+  getProducts,
 };

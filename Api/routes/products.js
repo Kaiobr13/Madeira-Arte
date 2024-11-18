@@ -12,4 +12,13 @@ router.get('/getrecomendedprods', async function(req, res, next) {
     }
   });
 
+  router.get('/getprods', async function(req, res, next) {
+    try {
+      res.json(await orders.getProducts());
+    } catch (err) {
+      console.error(`Error while getting orders`, err.message);
+      next(err);
+    }
+  });
+
   module.exports = router;
