@@ -55,12 +55,18 @@
       <form>
         <div class="mb-3">
           <label for="inputusername"class="form-label">Email</label>
-          <input type="text" class="form-control" id="inputusername" />
+          <input type="text"  class="form-control" id="inputusername" />
+          <div>
+            <p id="alert" class="alerta">Por favor insira um email valido</p>
+          </div>
         </div>
 
         <div class="mb-3">
           <label for="inputpassword" class="form-label">Password</label>
           <input  type="password" class="form-control" id="inputpassword" />
+          <div>
+            <p id="alert2" class="alerta">Por favor insira uma password válida</p>
+          </div>
         </div>
 
         <div class="mb-3 form-check">
@@ -71,7 +77,7 @@
         </div>
 
         <center>
-          <button type="submit" class="w-50 mb-3 btn btn-primary" id="loginBtn">Login</button>
+          <button type="button" class="w-50 mb-3 btn btn-primary" id="loginBtn">Login</button>
           <p class="signup-link">
             Não tem uma conta? <a href="register.html">Crie uma conta</a>
           </p>

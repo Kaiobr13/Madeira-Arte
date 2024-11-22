@@ -253,3 +253,10 @@ li.dropdown {
   width: fit-content;
   display: block;
 }
+
+
+.alerta
+{
+color: red;
+display: none;     
+}
