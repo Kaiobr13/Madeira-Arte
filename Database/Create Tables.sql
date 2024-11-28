@@ -15,7 +15,7 @@ create table class(
                     cla_name varchar(60) not null                                            -- Class name
 ); 
 
- create table supplier(
+create table supplier(
                      sup_id int not null auto_increment primary key,                       -- Primary key, auto incrementing
                      sup_name varchar(120),                                                -- Company name
                      sup_contact varchar(30),                                              -- Name of the representative
@@ -23,12 +23,12 @@ create table class(
                      sup_email varchar(120) unique not null,                               -- Supplier email, it is unique and not null
                      sup_phone varchar(30),                                                -- Supplier phone
                      sup_cla_id int not null                                               -- Supplier class, foreign key to class
- );
+);
 
- create table category(
+create table category(
                      cat_id int not null auto_increment primary key,                       -- Primary key, auto incrementing
                      cat_name varchar(60) not null                                         -- Product category name, if is a table, chair etc.
- );  
+);  
 
 create table product(
                     prod_id int not null auto_increment primary key,                   -- Primary key, auto incrementing
@@ -36,20 +36,9 @@ create table product(
                     prod_cat_id int not null,                                          -- Product category, foreign key to category 
                     prod_price decimal(10,2) not null,                                 -- Product value
                     prod_sup_id int not null,                                          -- Product supplier, foreign key to supplier
-                    prod_stock_id int not null                                         -- Product stock, foreign key to stock
+                    prod_stock_id int not null,                                        -- Product stock, foreign key to stock
+                    prod_img_path varchar(255)                                         -- Product Image Path
 );
-
--- create table images (
---                      img_id int auto_increment primary key,                                   -- Primary key, auto incrementing
---                      img_name varchar(255) not null,                                          -- Image name
---                      img_path varchar(500) not null                                           -- Image path
--- );
-
--- create table prodimg (
---                      prodimg_id int not null auto_increment primary key,                         -- Primary key, auto incrementing
---                      pi_prod_id int not null,                                                 -- Foreign key to product
---                      pi_img_id int not null                                                   -- Foreign key to image                    
--- );
 
 create table supplier_contacts(
                     sp_id int not null auto_increment primary key,                             -- Primary key, auto incrementing
