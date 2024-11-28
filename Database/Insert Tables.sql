@@ -46,7 +46,7 @@ values
     (22),
     (30);
 
-insert into product (prod_name, prod_cat_id, prod_price, prod_sup_id, prod_stock_id, prod_img_path)
+insert into product (prod_name, prod_cat_id, prod_price, prod_sup_id, prod_stock_id, img_path)
 values 
     ('Mesa de Jantar Rústica Black Mate', 1, 300.00, 1, 1, "Pure-Wood/Frontend/images/black-mate.png"),
     ('Mesa de Centro Vintage Tampo Duplo', 1, 150.50, 1, 2, "Pure-Wood/Frontend/images/mesa-vintage.png"),

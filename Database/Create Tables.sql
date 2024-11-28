@@ -37,7 +37,7 @@ create table product(
                     prod_price decimal(10,2) not null,                                 -- Product value
                     prod_sup_id int not null,                                          -- Product supplier, foreign key to supplier
                     prod_stock_id int not null,                                        -- Product stock, foreign key to stock
-                    prod_img_path varchar(255)                                         -- Product Image Path
+                    img_path varchar(255)                                              -- Product Image Path
 );
 
 create table supplier_contacts(
@@ -131,14 +131,4 @@ ON DELETE CASCADE;
 alter table payments
 add constraint payments_fk_order
 foreign key (pay_ord_id) references orders(ord_id)
-ON DELETE CASCADE;
-
-alter table prodimg
-add constraint product_images_fk
-foreign key (pi_prod_id) references product(prod_id)
-ON DELETE CASCADE;
-
-alter table prodimg
-add constraint product_images_fk_images
-foreign key (pi_img_id) references images(img_id)
 ON DELETE CASCADE;
