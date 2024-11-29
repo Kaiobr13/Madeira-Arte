@@ -66,7 +66,7 @@ async function login(user) {
           { expiresIn: "12h" }
         );
 
-        return { auth: true, message: "Login successful", token };
+        return { auth: true, message: "Login successful", token, classid: userRecord.cli_cla_id, idcliente: userRecord.cli_id };
       } else {
         message = "Invalid credentials";
       }
@@ -130,6 +130,49 @@ async function registerCliente(user) {
   }
 }
 
+async function registerUSER(user) {
+  try {
+    // Verificar se o email já existe
+    const emailCheck = await db.query(
+      `SELECT cli_id FROM client WHERE cli_email = ?`,
+      [user.email]
+    );
+
+    if (emailCheck.length > 0) {
+      return { message: "Email já existe" };
+    }
+
+    // Gerar um hash seguro da senha com bcrypt
+    const hashedPassword = await bcrypt.hash(user.password, 10); 
+
+    // Inserir o novo usuário
+    const result = await db.query(
+      `INSERT INTO client(cli_name, cli_email, cli_password, cli_cla_id, cli_place)
+      VALUES (?, ?, ?, ?, ?)`,
+      [user.name, user.email, hashedPassword, user.role, user.place]
+    );
+
+    let message = "Error in creating user";
+
+    if (result.affectedRows) {
+      const date = new Date();
+      message = "Registo efectuado com sucesso!";
+      // Adicionar logs
+      const logmessage = `${user.name} foi registado com o Email: ${user.email} a ${date.toISOString()}`;
+      await CreateLog(logmessage);
+
+      
+
+      return { message: message };
+    }
+
+    return { message: message };
+  } catch (error) {
+    console.error("Error during registration:", error);
+    return { message: "Internal server error" };
+  }
+}
+
 // Função para criar logs
 async function CreateLog(log_message) {
   // Inserir o novo log
@@ -178,7 +221,7 @@ async function update(id, user) {
 }
 
 async function remove(id) {
-  const result = await db.query(`DELETE FROM app_clients WHERE user_id=?`, [id]);
+  const result = await db.query(`DELETE FROM client WHERE cli_id=?`, [id]);
 
   let message = "Error in deleting user";
 
@@ -195,5 +238,6 @@ module.exports = {
   registerCliente,
   update,
   remove,
+  registerUSER,
   getusertype // to fill the select on the clients page
 };

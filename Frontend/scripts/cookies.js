@@ -33,6 +33,25 @@ function setCookie(cname, cvalue) {
     }
   }
 
+  function checkifitsadmin() {
+    let user = getCookie("admin");
+    if (user != "") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function checkifitssupplier() {
+    let user = getCookie("supplier");
+    if (user != "") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
   function eraseCookie(name) {
     document.cookie = name + "=; Max-Age=-99999999;";
 

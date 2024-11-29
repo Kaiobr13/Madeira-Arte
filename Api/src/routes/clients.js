@@ -11,7 +11,9 @@ router.post('/login', async function(req, res, next) {
       res.status(200).json({
         success: true,
         message: 'Login successful',
-        token: response.token
+        token: response.token,
+        classid: response.classid,
+        idcliente: response.idcliente
       });
     } else {
       res.status(401).json({
@@ -56,6 +58,19 @@ router.post('/addclient', async function(req, res, next) {
       next(err);
     }
   });
+
+
+  /* POST  USER definindo o seu tipo */
+router.post('/adduser', async function(req, res, next) {
+  try {
+    var s = await clients.registerUSER(req.body);
+    console.log(s);
+    res.json(s);
+  } catch (err) {
+    console.error(`Error while creating user`, err.message);
+    next(err);
+  }
+});
 
 
   

@@ -15,7 +15,7 @@ $(document).ready(function () {
 
   // Adicionar validações para ocultar mensagens automaticamente
   validateField("#inputusername", "#alert", isValidEmail);
-  validateField("#inputpassword", "#alert2", value => value.trim() !== "");
+  validateField("#inputpassword", "#alert2", (value) => value.trim() !== "");
 
   // Ação no botão "Login"
   $("#loginBtn").click(function () {
@@ -63,21 +63,45 @@ $(document).ready(function () {
         email: email,
       }),
       success: function (response) {
-        console.log(response.message);
+        console.log(response); // Verifica o objeto de resposta completo no console
+
+        // Verificar se a autenticação foi bem-sucedida
         if (response.success) {
           setCookie("login", true);
+         
+          
+          if (response.classid == 1) {
+            setCookie("admin", response.classid);
+            setCookie("id", response.idcliente);
 
-          setTimeout(function () {
-            window.location.href = "paginainicial.html"; // Caminho correto
-          }, 500);
+            setTimeout(function () {
+              window.location.href = "admin.html"; 
+            }, 500);
 
-          window.alert("Login efectuado com sucesso!");
+          } 
+          else if (response.classid == 2) 
+            {
+              setCookie("supplier", response.classid);
+              setTimeout(function () {
+                window.location.href = "supplier.html"; 
+              }, 500);
+          } 
+          else {
+            setTimeout(function () {
+              window.location.href = "paginainicial.html"; 
+            }, 500);
+          }
+          
+
+          window.alert("Login efetuado com sucesso!");
         } else {
           window.alert("Falha no Login: " + response.message);
         }
       },
       error: function (error) {
-        window.alert("Ocorreu um erro durante o login. Por favor, tente novamente.");
+        window.alert(
+          "Ocorreu um erro durante o login. Por favor, tente novamente."
+        );
       },
     });
   });
