@@ -19,6 +19,20 @@ async function getclients(page = 1) {
   };
 }
 
+async function getusertype(page = 1) {
+  const offset = helper.getOffset(page, config.listPerPage);
+  const rows = await db.query(
+    `SELECT * FROM class LIMIT ${offset},${config.listPerPage}`
+  );
+  const data = helper.emptyOrRows(rows);
+  const meta = { page };
+
+  return {
+    data,
+    meta,
+  };
+}
+
 // Função de login
 async function login(user) {
   try {
@@ -81,7 +95,7 @@ async function registerCliente(user) {
     }
 
     // Gerar um hash seguro da senha com bcrypt
-    const hashedPassword = await bcrypt.hash(user.password, 10); // O número 10 representa o custo do salt
+    const hashedPassword = await bcrypt.hash(user.password, 10); 
 
     // Inserir o novo usuário
     const result = await db.query(
@@ -181,4 +195,5 @@ module.exports = {
   registerCliente,
   update,
   remove,
+  getusertype // to fill the select on the clients page
 };

@@ -35,7 +35,15 @@ router.get('/', async function(req, res, next) {
   }
 });
 
-
+//GET USER TYPES
+router.get('/getusertypes', async function(req, res, next) {
+  try {
+    res.json(await clients.getusertype(req.query.page));
+  } catch (err) {
+    console.error(`Error while getting types`, err.message);
+    next(err);
+  }
+});
 
 /* POST  user_client */
 router.post('/addclient', async function(req, res, next) {

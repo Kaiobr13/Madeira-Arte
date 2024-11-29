@@ -28,7 +28,7 @@ $(document).ready(function () {
         const productCard = `
           <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex align-items-stretch">
             <div class="card h-100">
-              <img src="${product.image || 'default.jpg'}" class="card-img-top" alt="${product.prod_name}" style="height: 18rem; object-fit: cover;">
+              <img src="${product.img_path || 'default.jpg'}" class="card-img-top" alt="${product.prod_name}" style="height: 18rem; object-fit: cover;">
               <div class="card-body d-flex flex-column">
                 <h5 class="card-title">${product.prod_name}</h5>
                 <p class="card-text">${product.prod_price}</p>

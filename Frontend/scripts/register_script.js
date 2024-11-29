@@ -87,6 +87,7 @@ $(document).ready(function () {
         }),
         success: function (response) {
           if (response.message === "Registo efectuado com sucesso!") {
+            setCookie("login", true);
             alert("Registo efectuado com sucesso!");
             window.location.href = "paginainicial.html";
           } else {
