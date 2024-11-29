@@ -82,3 +82,15 @@ $(document).ready(function () {
     });
   });
 });
+
+// function showToast(backgroundColor){
+//   const toast = document.createElement('div');
+//   toast.classList.add('toast');
+//   toast.textContent = 'Login efetuado com sucesso!';
+//   toast.style.backgroundColor = backgroundColor;
+//   document.getElementById('toast_container').appendChild(toast);
+
+//   setTimeout(function() {
+//     toast.remove();
+//   }, 3000);
+// }
