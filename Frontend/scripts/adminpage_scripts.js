@@ -27,7 +27,7 @@ $(document).ready(function () {
                 <td>${user.cli_name}</td>
                 <td>${user.cli_email}</td>
                 <td>${user.cli_place}</td>
-                <td>${user.cli_cla_id}</td>
+                <td>${user.cla_name}</td>
                 <td>${user.cli_register_date}</td>
                 <td>
                   <button class="btn btn-primary btn-remove" data-id="${user.cli_id}">

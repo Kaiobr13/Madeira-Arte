@@ -8,7 +8,8 @@ async function getclients(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
     `SELECT *
-    FROM client LIMIT ${offset},${config.listPerPage}`
+    FROM client
+    INNER JOIN class ON client.cli_cla_id = class.cla_id LIMIT ${offset},${config.listPerPage}`
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
