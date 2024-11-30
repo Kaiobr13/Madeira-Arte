@@ -28,14 +28,20 @@
         </ul>
       </nav>
     </header>
-    <div>
-      <a class="btn btn-primary">
-        <i class="fa-solid fa-cart-shopping"></i>
-      </a>
-
+    <div style="margin: auto;">
+      
       <div class="m-5"><h2>Produtos</h2></div>
-      <center><div class="row" id="listaDeProdutos" style="display: ruby;"></center>
-        
+      <a class="btn btn-primary" id="cartButton" style="position: relative; float: right;">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span id="cartCount" class="badge bg-danger" style="position: absolute; top: 0; right: 0;">0</span>
+        <div id="cartDropdown" style="display: none; position: absolute; top: 40px; right: 0; background: white; border: 1px solid #ccc; padding: 10px; width: 300px; z-index: 100;">
+          <ul id="cartItems" style="list-style: none; padding: 0; margin: 0;"></ul>
+          <button class="btn btn-success mt-2 w-100" id="finalizeOrder">Finalizar Pedido</button>
+        </div>
+      </a>
+      <br>
+      <br>
+      <div class="row" id="listaDeProdutos" style="display: flex; margin-left: 10%;margin-bottom: 5%;">
       </div>
     </div>
     </div>
