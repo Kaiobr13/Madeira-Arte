@@ -35,7 +35,7 @@ $(document).ready(function () {
             <img src="${product.img_path || 'default.jpg'}" class="card-img-top" alt="${product.prod_name}" style="height: 18rem; object-fit: cover;">
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">${product.prod_name}</h5>
-              <p class="card-text">Preço: R$${product.prod_price}</p>
+              <p class="card-text">Preço: ${product.prod_price}€</p>
               <div class="mt-auto">
                 <button class="btn btn-primary w-100 add-to-cart" 
                         data-id="${product.prod_id}" 
@@ -98,8 +98,8 @@ $(document).ready(function () {
       const listItem = `
         <li class="d-flex justify-content-between align-items-center mb-2">
           <div>
-            <strong>${item.name}</strong><br>
-            <span>R$${item.price}</span>
+            <strong style="color: black;">${item.name}</strong><br>
+            <span style="color: black;">${item.price}€</span>
           </div>
           <button class="btn btn-sm btn-danger remove-item" data-index="${index}">&times;</button>
         </li>`;
