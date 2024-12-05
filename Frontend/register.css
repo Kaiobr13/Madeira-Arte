@@ -46,7 +46,7 @@ header .nav-links li a {
 }
 
 header .nav-links li a:hover {
-    color: #d2a679;
+    color: #000000;
 }
 
 /* Seção Hero */
@@ -200,7 +200,7 @@ button:hover {
 li a,
 .dropbtn {
   display: inline-block;
-  color: white;
+  color: rgb(0, 0, 0);
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -210,14 +210,13 @@ li a,
 
 li a:hover,
 .dropdown:hover .dropbtn {
-  background-color: #111;
+  background-color: #d2a679;
   width: fit-content;
 
 }
 
 li.dropdown {
   width: fit-content;
-
   float: right;
   display: inline-block;
 }
@@ -226,14 +225,15 @@ li.dropdown {
   display: none;
   position: absolute;
   width: fit-content;
-  background-color: #EB7131;
+  background-color: #d2a679;
+  color: black;
   min-width: fit-content;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
 .dropdown-content a {
-  color: white;
+  color: black;
   width: fit-content;
   padding: 10px 9px;
   text-decoration: none;
@@ -245,13 +245,15 @@ li.dropdown {
 .dropdown-content a:hover {
   width: fit-content;
 
-  background-color: black;
+  background-color: #b3864c;
 }
 
 .dropdown:hover .dropdown-content {
+ padding-right: 2px ;
   width: fit-content;
   display: block;
 }
+
 
 .alerta
 {
