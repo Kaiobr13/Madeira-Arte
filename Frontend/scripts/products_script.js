@@ -66,12 +66,16 @@ $(document).ready(function () {
     const existingProduct = cart.find((item) => item.id === id);
 
     if (existingProduct) {
-      alert("Este produto já está no carrinho!");
+      // Incrementa a quantidade se o produto já estiver no carrinho
+      existingProduct.quantity += 1;
+      alert(`Mais uma unidade de ${name} foi adicionada ao carrinho.`);
     } else {
-      cart.push({ id, name, price });
-      updateCartUI();
+      // Adiciona novo produto ao carrinho
+      cart.push({ id, name, price, quantity: 1 });
       alert(`${name} foi adicionado ao carrinho.`);
     }
+
+    updateCartUI();
   }
 
   // Função para atualizar a interface do carrinho
@@ -82,7 +86,8 @@ $(document).ready(function () {
     const cartCount = $("#cartCount");
   
     // Atualiza o contador de itens no carrinho
-    cartCount.text(cart.length);
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    cartCount.text(totalItems);
   
     // Limpa a lista de itens do carrinho
     cartItems.empty();
@@ -99,21 +104,41 @@ $(document).ready(function () {
         <li class="d-flex justify-content-between align-items-center mb-2">
           <div>
             <strong style="color: black;">${item.name}</strong><br>
-            <span style="color: black;">${item.price}€</span>
+            <span style="color: black;">${item.price}€</span><br>
+            <small style="color: gray;">Quantidade: ${item.quantity}</small>
           </div>
-          <button class="btn btn-sm btn-danger remove-item" data-index="${index}">&times;</button>
+          <div>
+            <button class="btn btn-sm btn-secondary me-1 increase-quantity" data-index="${index}">+</button>
+            <button class="btn btn-sm btn-secondary decrease-quantity" data-index="${index}">-</button>
+            <button class="btn btn-sm btn-danger remove-item" data-index="${index}">&times;</button>
+          </div>
         </li>`;
       cartItems.append(listItem);
     });
   
-    // Adicionar eventos de remoção
+    // Adicionar eventos de aumentar/diminuir quantidade ou remover
+    $(".increase-quantity").on("click", function () {
+      const itemIndex = $(this).data("index");
+      cart[itemIndex].quantity += 1; // Incrementa a quantidade
+      updateCartUI();
+    });
+
+    $(".decrease-quantity").on("click", function () {
+      const itemIndex = $(this).data("index");
+      if (cart[itemIndex].quantity > 1) {
+        cart[itemIndex].quantity -= 1; // Decrementa a quantidade
+      } else {
+        cart.splice(itemIndex, 1); // Remove o item se a quantidade for 1
+      }
+      updateCartUI();
+    });
+
     $(".remove-item").on("click", function () {
       const itemIndex = $(this).data("index");
       cart.splice(itemIndex, 1); // Remove o item do carrinho
       updateCartUI(); // Atualiza o carrinho após a remoção
     });
   }
-  
 
   // Mostrar/Esconder dropdown do carrinho
   $("#cartButton").hover(

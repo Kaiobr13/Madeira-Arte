@@ -254,3 +254,17 @@ li.dropdown {
   display: block;
 }
 
+.total-price{
+    position: fixed;
+        bottom: 80px;
+        right: 70px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        z-index: 1000;
+        box-shadow: 0px 4px 6px rgba(0,0,0,0.1);
+}
