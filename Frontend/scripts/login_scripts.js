@@ -88,6 +88,7 @@ $(document).ready(function () {
           } 
           else {
             setTimeout(function () {
+              setCookie("id", response.idcliente);
               window.location.href = "paginainicial.html"; 
             }, 500);
           }
