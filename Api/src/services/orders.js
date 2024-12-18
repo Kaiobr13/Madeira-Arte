@@ -5,10 +5,9 @@ const config = require("../config");
 // Função para criar logs
 async function CreateLog(log_message) {
   try {
-    const result = await db.query(
-      `INSERT INTO logs(log_message) VALUES (?)`,
-      [log_message]
-    );
+    const result = await db.query(`INSERT INTO logs(log_message) VALUES (?)`, [
+      log_message,
+    ]);
 
     let message = "Error in creating log";
 
@@ -46,49 +45,56 @@ async function getOrders(page = 1) {
 
 // Função para adicionar um novo pedido com seus detalhes
 async function addOrder(order) {
+  const date = new Date();
   try {
-    // Cria o pedido principal na tabela `orders`
-    const [orderResult] = await db.query(
-      `INSERT INTO orders (ord_status, ord_cli_id, ord_total) VALUES (?, ?, ?)`,
-      ["Pendente", order.user_id, order.total]
+    console.log("Recebendo dados do pedido:", order);
+
+    // Verificar dados do produto
+    const prod_id = order.prod_id;
+    const unit_price = order.unit_price;
+   
+
+    if (!prod_id || !unit_price  ) {
+      throw new Error("Dados do produto inválidos.");
+    }
+
+    // Inserir o pedido principal
+    const orderResult = await db.query(
+      `INSERT INTO orders (ord_status, ord_date, ord_cli_id, ord_total) VALUES (?, ?, ?, ?)`,
+      ["Pendente", date, order.user_id, order.total]
     );
 
-    // Obtém o ID do pedido recém-criado
-    const orderId = orderResult.insertId;
+    console.log("Resultado da inserção do pedido:", orderResult);
 
-    // Insere os detalhes do pedido na tabela `order_details`
-    const orderDetails = order.products.map((product) => [
-      orderId,
-      product.id, // ID do produto
-      product.quantity, // Quantidade do produto
-      product.price, // Preço unitário do produto
-    ]);
+    const orderId = orderResult.insertId;  // Pode ser que não precise de desestruturação
 
-    // Query para inserir múltiplos detalhes de pedido de uma só vez
-    const detailsResult = await db.query(
-      `INSERT INTO order_details (det_ord_id, det_prod_id, det_quantity, prod_unit_price) VALUES ?`,
-      [orderDetails]
+    // Inserir os detalhes do pedido
+    await db.query(
+      `INSERT INTO order_details (det_ord_id, det_prod_id, det_quantity, prod_unit_price) VALUES (?, ?, ?, ?)`,
+      [orderId, prod_id, 1, unit_price]
     );
 
-    // Log de sucesso
-    const logMessage = `Pedido criado com sucesso: ID do pedido ${orderId}, Cliente ${order.user_id}, Total ${order.total}.`;
-    await CreateLog(logMessage);
+    // Criar log de sucesso
+    await CreateLog(
+      `Pedido criado com sucesso: ID do pedido ${orderId}, Cliente ${order.user_id}, Total ${order.total}.`
+    );
 
-    // Mensagem de sucesso
     return {
       message: "Encomenda efetuada com sucesso!",
       orderId,
     };
   } catch (error) {
-    console.error("Error during order creation:", error);
-
-    // Log de erro
-    const logMessage = `Erro ao criar pedido para Cliente ${order.user_id}: ${error.message}`;
-    await CreateLog(logMessage);
-
+    console.error("Erro ao criar pedido:", error);
+    await CreateLog(`Erro ao criar pedido para Cliente ${order.user_id}: ${error.message}`);
     return { message: "Erro interno no servidor" };
   }
 }
+
+
+
+
+
+
 
 module.exports = {
   getOrders,
