@@ -9,16 +9,6 @@ services:
     networks:
       purewood-net:
         ipv4_address: 172.28.0.8
-  ai2:
-    image: python:latest
-    restart: always
-    ports:
-      - "3051:3000"
-    volumes:
-      - ./../AI
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.9
 
   bd:
     image: mysql:latest
@@ -35,21 +25,6 @@ services:
       purewood-net:
         ipv4_address: 172.28.0.11
 
-  bd1:
-    image: mysql:latest
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: 129034kbs
-      MYSQL_DATABASE: pure_wood
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 129034kbs
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.12
-
   webapp:
     build:
       context: ../Frontend
@@ -60,35 +35,15 @@ services:
       purewood-net:
         ipv4_address: 172.28.0.3
 
-  webapp1:
-    build:
-      context: ./../Frontend
-      dockerfile: ./../Frontend/Dockerfile
-    ports:
-      - "3011:3000"
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.4
-
   api1:
     build:
-      context: ./../Api/src/
-      dockerfile: ./../Api/src/Dockerfile
+      context: ../Api/src/
+      dockerfile: ../Api/src/Dockerfile
     ports:
       - "3000:3000"
     networks:
       purewood-net:
         ipv4_address: 172.28.0.5
-  
-  api2:
-    build:
-      context: ./../Api/src/
-      dockerfile: ./../Api/src/Dockerfile
-    ports:
-      - "3001:3000"
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.6
 
 volumes:
   mysql_data:
