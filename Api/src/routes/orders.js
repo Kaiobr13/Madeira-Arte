@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const orders = require('../services/orders');
-
+const order = require('../services/orders');
 
 router.post('/addorder', async function(req, res, next) {
     try {
-      var s = await orders.addorder(req.body);
+      var s = await order.addOrder(req.body);
       console.log(s);
       res.json(s);
     } catch (err) {
@@ -13,3 +12,5 @@ router.post('/addorder', async function(req, res, next) {
       next(err);
     }
   });
+
+  module.exports = router;
