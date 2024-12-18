@@ -4,6 +4,8 @@ const port = process.env.port || 3000;
 //const cors = require('cors');
 const clientsRouter = require("./routes/clients");
 const productsRouter = require("./routes/products");
+const ordersRouter = require("./routes/orders");
+
 var cors = require('cors');
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,6 +31,7 @@ app.get("/", (req, res) => {
 });
 app.use("/clients", clientsRouter);
 app.use("/products", productsRouter);
+app.use("/orders", ordersRouter);
 
 
 

@@ -1,4 +1,17 @@
 $(document).ready(function () {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let totalPrice = 0; // Inicializa o preço total
+  
+  products.forEach((product) => {
+    // Busca a quantidade do produto no carrinho
+    const cartItem = cart.find((item) => item.id === product.prod_id);
+    const quantity = cartItem ? cartItem.quantity : 1;
+
+    // Atualiza o preço total
+    totalPrice += product.prod_price * quantity;
+  });
+
     // Função para validar campos individuais e ocultar mensagens de erro
     function validateFieldOnPattern(field, alertId, validationFn) {
       $(field).on("input", function () {
@@ -103,7 +116,35 @@ $(document).ready(function () {
   
       // Se todas as validações passarem, prosseguir com o pagamento
       if (isValid) {
-        alert("Pagamento realizado com sucesso!");
+       
+        $.ajax({
+          url: "http://localhost:3000/orders/addorder",
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({
+            user_id: getCookie("id"),
+            total: totalPrice,
+            products: cart.map((item) => ({
+              id: item.id,
+              quantity: item.quantity,
+              price: item.price,
+            })),
+          }),
+          success: function (response) {
+            if (response.message === "Encomenda efectuado com sucesso!") {
+
+              alert("Pagamento realizado com sucesso!\n A sua encomenda foi criada");
+              localStorage.removeItem("cart"); // Limpa o carrinho do localStorage
+              window.location.href = "paginainicial.html";
+              
+            } else {
+              alert("Falha na compra: " + response.message);
+            }
+          },
+          error: function () {
+            alert("Erro durante o registo. Tente novamente mais tarde.");
+          },
+        });
         // Aqui pode adicionar código para processamento do pagamento
       }
     });
