@@ -5,52 +5,34 @@ services:
     ports:
       - "3050:3000"
     volumes:
-      - ./../AI
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.8
+      - /Pure-Wood/AI 
 
   bd:
     image: mysql:latest
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: 129034kbs
       MYSQL_DATABASE: pure_wood
-      MYSQL_USER: root
+      MYSQL_USER: pure_wood
       MYSQL_PASSWORD: 129034kbs
     volumes:
+      - ./../Database/init:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.11
 
   webapp:
     build:
       context: ../Frontend
-      dockerfile: ../Frontend/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "3010:3000"
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.3
 
   api1:
     build:
       context: ../Api/src/
-      dockerfile: ../Api/src/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    networks:
-      purewood-net:
-        ipv4_address: 172.28.0.5
 
 volumes:
   mysql_data:
-
-networks:
-  purewood-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: "172.28.0.0/24"	
