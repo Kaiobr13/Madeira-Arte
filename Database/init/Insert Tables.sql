@@ -4,7 +4,7 @@ values ('Admin'),
        ('User');
 
 insert into client(cli_name, cli_email, cli_password, cli_cla_id)
-values ('admin', 'admin', 'admin', 1);
+values ('admin', 'admin@mail.com', '$2b$10$.n8AYaqq2jgb63esFDVVNeoqM2cXyKsIi0oCTZNrYVaIHjYScizOG', 1);
 
 insert into supplier(sup_name, sup_contact, sup_address, sup_email, sup_phone, sup_cla_id)
 values ('Madeiras do Norte Lda.', 'João Silva', 'Porto', 'info@madeirasdonorte.pt', '+351 22 123 4567', 2),
