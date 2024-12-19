@@ -1,4 +1,10 @@
 $(document).ready(function () {
+
+  if(!checkCookieLogin())
+    {
+      alert("Precisa de fazer login para ter prosseguir com a compra!");
+      window.location.replace("login.html");
+    }
   // Obtém os produtos do carrinho armazenado no localStorage
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   

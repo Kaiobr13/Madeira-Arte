@@ -1,4 +1,14 @@
 $(document).ready(function () {
+
+  if(!checkCookieLogin())
+    {
+      alert("Precisa de fazer login para ter acesso a esta página!");
+      window.location.replace("login.html");
+    }
+    if (!checkifitssupplier()){
+      alert("Não tem acesso a esta página!");
+      window.location.replace("paginainicial.html");
+    }
     // Função para carregar as encomendas e preencher a tabela
     function loadOrders() {
       $.ajax({

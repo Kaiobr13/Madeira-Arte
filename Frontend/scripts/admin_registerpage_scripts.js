@@ -4,6 +4,17 @@ function isValidEmail(email) {
   }
   
   $(document).ready(function () {
+
+    if(!checkCookieLogin())
+      {
+        alert("Precisa de fazer login para ter acesso a esta página!");
+        window.location.replace("login.html");
+      }
+      if (!checkifitsadmin){
+        alert("Não tem acesso a esta página!");
+        window.location.replace("paginainicial.html");
+      }
+      
     // Função para validar campos individuais e ocultar mensagens de erro
     function validateField(field, alertId, validationFn) {
       $(field).on("input", function () {
