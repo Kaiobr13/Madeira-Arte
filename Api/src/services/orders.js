@@ -26,10 +26,11 @@ async function CreateLog(log_message) {
 async function getOrders(page = 1) {
   const offset = helper.getOffset(page, config.listPerPage);
   const rows = await db.query(
-    `SELECT *
+    `SELECT ord_id , cli_email, cli_place, prod_name, ord_total, ord_status, ord_date
       FROM orders
       INNER JOIN order_details ON orders.ord_id = order_details.det_ord_id
-      LIMIT ${offset}, ${config.listPerPage}`
+      INNER JOIN product on prod_id = det_prod_id
+      INNER JOIN client on cli_id = ord_cli_id;`
   );
   const data = helper.emptyOrRows(rows);
   const meta = { page };
@@ -91,6 +92,26 @@ async function addOrder(order) {
 }
 
 
+async function remove(id) {
+  try {
+    // Primeiro, remover os detalhes da encomenda
+    await db.query(`DELETE FROM order_details WHERE det_ord_id=?`, [id]);
+
+    // Depois, remover a encomenda
+    const result = await db.query(`DELETE FROM orders WHERE ord_id=?`, [id]);
+
+    let message = "Erro ao remover a encomenda.";
+
+    if (result.affectedRows) {
+      message = "Encomenda removida com sucesso.";
+    }
+
+    return { message };
+  } catch (error) {
+    console.error("Erro ao remover encomenda:", error);
+    throw error; // Lançar o erro para ser tratado pelo chamador
+  }
+}
 
 
 
@@ -99,4 +120,5 @@ async function addOrder(order) {
 module.exports = {
   getOrders,
   addOrder,
+  remove
 };
