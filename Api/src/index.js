@@ -12,8 +12,6 @@ const recommendationsRouter = require('./routes/recommendations'); // Nova rota
 const port = process.env.port || 3000;
 //const cors = require('cors');
 
-
-var cors = require('cors');
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
@@ -24,9 +22,7 @@ app.get('/', (req, res) => {
   res.json({ message: 'ok' });
 });
 
-const clientsRouter = require("./routes/clients");
-const productsRouter = require("./routes/products");
-const ordersRouter = require("./routes/orders");
+
 
 app.use("/clients", clientsRouter);
 app.use("/products", productsRouter);
