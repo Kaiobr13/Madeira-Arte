@@ -94,24 +94,24 @@ async function registerCliente(user) {
     if (emailCheck.length > 0) {
       return { message: "Email já existe" };
     }
+      const date = new Date();
 
     // Gerar um hash seguro da senha com bcrypt
     const hashedPassword = await bcrypt.hash(user.password, 10); 
 
     // Inserir o novo usuário
     const result = await db.query(
-      `INSERT INTO client(cli_name, cli_email, cli_password, cli_cla_id, cli_place)
-      VALUES (?, ?, ?, ?, ?)`,
-      [user.name, user.email, hashedPassword, 3, user.place]
+      `INSERT INTO client(cli_name, cli_email, cli_password, cli_cla_id, cli_place, cli_register_date)
+      VALUES (?, ?, ?, ?, ?, ?)`,
+      [user.name, user.email, hashedPassword, 3, user.place, date]
     );
 
     let message = "Error in creating user";
 
     if (result.affectedRows) {
-      const date = new Date();
       message = "Registo efectuado com sucesso!";
       // Adicionar logs
-      const logmessage = `${user.name} registou-se com o Email: ${user.email} a ${date.toISOString()}`;
+      const logmessage = `${user.name} registou-se com o Email: ${user.email} a ${date}`;
       await CreateLog(logmessage);
 
       // Gerar um token
@@ -145,21 +145,21 @@ async function registerUSER(user) {
 
     // Gerar um hash seguro da senha com bcrypt
     const hashedPassword = await bcrypt.hash(user.password, 10); 
-
+    const date = new Date();
     // Inserir o novo usuário
     const result = await db.query(
-      `INSERT INTO client(cli_name, cli_email, cli_password, cli_cla_id, cli_place)
-      VALUES (?, ?, ?, ?, ?)`,
-      [user.name, user.email, hashedPassword, user.role, user.place]
+      `INSERT INTO client(cli_name, cli_email, cli_password, cli_cla_id, cli_place, cli_register_date)
+      VALUES (?, ?, ?, ?, ?, ?)`,
+      [user.name, user.email, hashedPassword, user.role, user.place, date]
     );
 
     let message = "Error in creating user";
 
     if (result.affectedRows) {
-      const date = new Date();
+      
       message = "Registo efectuado com sucesso!";
       // Adicionar logs
-      const logmessage = `${user.name} foi registado com o Email: ${user.email} a ${date.toISOString()}`;
+      const logmessage = `${user.name} foi registado com o Email: ${user.email} a ${date}`;
       await CreateLog(logmessage);
 
       

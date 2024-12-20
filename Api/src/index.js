@@ -10,6 +10,11 @@ const recommendationsRouter = require('./routes/recommendations'); // Nova rota
 
 
 const port = process.env.port || 3000;
+//const cors = require('cors');
+
+
+var cors = require('cors');
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use(express.json());
@@ -19,11 +24,16 @@ app.get('/', (req, res) => {
   res.json({ message: 'ok' });
 });
 
-app.use('/clients', clientsRouter);
-app.use('/products', productsRouter);
-app.use('/orders', ordersRouter);
-app.use('/recommendations', (req, res) => res.send('Testando rota'));
-app.use('/recommendations', recommendationsRouter); // Adicionar a rota de recomendações
+const clientsRouter = require("./routes/clients");
+const productsRouter = require("./routes/products");
+const ordersRouter = require("./routes/orders");
+
+app.use("/clients", clientsRouter);
+app.use("/products", productsRouter);
+app.use("/orders", ordersRouter);
+
+
+
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

@@ -1,5 +1,15 @@
 $(document).ready(function () {
     // Função para carregar os usuários e preencher a tabela
+    if(!checkCookieLogin())
+    {
+      alert("Precisa de fazer login para ter acesso a esta página!");
+      window.location.replace("login.html");
+    }
+    if (!checkifitsadmin){
+      alert("Não tem acesso a esta página!");
+      window.location.replace("paginainicial.html");
+    }
+    
     function loadUsers() {
       // Recuperar o ID do usuário logado do cookie
       const loggedUserId = getCookie("id");
@@ -28,7 +38,7 @@ $(document).ready(function () {
                 <td>${user.cli_email}</td>
                 <td>${user.cli_place}</td>
                 <td>${user.cla_name}</td>
-                <td>${user.cli_register_date}</td>
+                <td>${new Date(user.cli_register_date).toLocaleDateString()}</td>
                 <td>
                   <button class="btn btn-primary btn-remove" data-id="${user.cli_id}">
                     Remover
