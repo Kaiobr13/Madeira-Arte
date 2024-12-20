@@ -13,3 +13,5 @@ router.post('/addorder', async function(req, res, next) {
       next(err);
     }
   });
+
+module.exports = router;

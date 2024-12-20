@@ -1,47 +1,38 @@
-const express = require("express");
-const app = express();
-const port = process.env.port || 3000;
-//const cors = require('cors');
-const clientsRouter = require("./routes/clients");
-const productsRouter = require("./routes/products");
-const ordersRouter = require("./routes/orders");
+console.log('Servidor está inicializando...');
 
-var cors = require('cors');
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const clientsRouter = require('./routes/clients');
+const productsRouter = require('./routes/products');
+const ordersRouter = require('./routes/orders');
+const recommendationsRouter = require('./routes/recommendations'); // Nova rota
+
+
+const port = process.env.port || 3000;
+
+app.use(cors());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
-/*
-app.use(cors());
-const corsOptions = {
-    origin: 'http://127.0.0.1:5500',
-    optionsSuccessStatus: 200 // Algumas versões de navegadores exigem esse status
-};*/
-
-//app.use(cors(corsOptions));
-app.use(express.json());
-
-app.use(
-    express.urlencoded({
-        extended: true,
-    })
-);
-
-app.get("/", (req, res) => {
-    res.json({ message: "ok" });
+app.get('/', (req, res) => {
+  res.json({ message: 'ok' });
 });
-app.use("/clients", clientsRouter);
-app.use("/products", productsRouter);
-app.use("/orders", ordersRouter);
 
-
+app.use('/clients', clientsRouter);
+app.use('/products', productsRouter);
+app.use('/orders', ordersRouter);
+app.use('/recommendations', (req, res) => res.send('Testando rota'));
+app.use('/recommendations', recommendationsRouter); // Adicionar a rota de recomendações
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    console.error(err.message, err.stack);
-    res.status(statusCode).json({ message: err.message });
-    return;
+  const statusCode = err.statusCode || 500;
+  console.error(err.message, err.stack);
+  res.status(statusCode).json({ message: err.message });
+  return;
 });
+
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`App running at http://localhost:${port}`);
 });
