@@ -2,39 +2,42 @@ $(document).ready(function () {
   const recomendationsSection = $("#recomendations");
   const productsTable = $("#products");
 
-  // Verifica se o utilizador está logado
   if (checkCookieLogin()) {
-    const userId = getCookie("user_id"); // Assumindo que o ID do usuário está armazenado em um cookie
+    const userId = getCookie("id");
 
-    // Primeira requisição: buscar IDs recomendados
-    $.ajax({
-      url: `http://localhost:3000/recommendations?user_id=${userId}`,
-      type: "GET",
-      dataType: "json",
-      success: function (response) {
-        if (response && response.length > 0) {
-          // Segunda requisição: buscar detalhes dos produtos
-          fetchProductDetails(response);
-        } else {
-          productsTable.append("<tr><td colspan='3'>Sem recomendações disponíveis.</td></tr>");
-        }
-      },
-      error: function (error) {
-        console.log("Erro ao obter recomendações:", error);
-        productsTable.append("<tr><td colspan='3'>Erro ao carregar recomendações.</td></tr>");
-      },
-    });
+    // Obter IDs recomendados
+    // Função para buscar IDs recomendados
+$.ajax({
+  url: `http://localhost:3000/recommendations?user_id=${userId}`,
+  type: "GET",
+  dataType: "json",
+  success: function (response) {
+    if (response && response.length > 0) {
+      // Converte os IDs para uma string no formato correto
+      const productIds = response.join(',');
+      fetchProductDetails(productIds); // Chama a próxima função
+    } else {
+      productsTable.append("<tr><td colspan='3'>Sem recomendações disponíveis.</td></tr>");
+    }
+  },
+  error: function (error) {
+    console.log("Erro ao obter recomendações:", error);
+    productsTable.append("<tr><td colspan='3'>Erro ao carregar recomendações.</td></tr>");
+  },
+});
   } else {
-    // Se não estiver logado, esconder a seção de recomendações
     recomendationsSection.css("display", "none");
   }
 
-  // Função para buscar detalhes dos produtos recomendados
+  // Função para buscar detalhes dos produtos
   function fetchProductDetails(productIds) {
+    // Garantir que `productIds` seja um array simples de números ou strings
+    const ids = Array.isArray(productIds) ? productIds : [];
+  
     $.ajax({
-      url: `http://localhost:3000/products/getprodbyid/${productIds}`,
+      url: `http://localhost:3000/recommendations/getprodbyid/${productIds}`, // Corrige os IDs no URL
       type: "POST",
-      contentType: "application/json", // Enviar os IDs como um array
+      contentType: "application/json",
       dataType: "json",
       success: function (response) {
         if (response && response.data && response.data.length > 0) {
@@ -49,10 +52,10 @@ $(document).ready(function () {
       },
     });
   }
-
-  // Função para renderizar os cards de produtos recomendados
+  
+  // Função para renderizar os cards dos produtos
   function populateProductsCards(products) {
-    productsTable.empty(); // Limpa qualquer conteúdo anterior
+    productsTable.empty();
 
     products.forEach((product) => {
       const productCard = `
@@ -63,29 +66,22 @@ $(document).ready(function () {
               <h5 class="card-title">${product.prod_name}</h5>
               <p class="card-text">Preço: ${product.prod_price}€</p>
               <div class="mt-auto">
-                <button class="btn btn-primary w-100 add-to-cart" 
-                        data-id="${product.prod_id}" 
-                        data-name="${product.prod_name}" 
-                        data-price="${product.prod_price}">Adicionar ao Carrinho</button>
-              </div>
+                
             </div>
           </div>
-        </div>`;
+        </div>`
       productsTable.append(productCard);
     });
 
-    // Adiciona eventos aos botões de "Adicionar ao Carrinho"
     $(".add-to-cart").on("click", function () {
       const productId = $(this).data("id");
       const productName = $(this).data("name");
       const productPrice = $(this).data("price");
 
-      // Chama a função para adicionar ao carrinho
       addToCart(productId, productName, productPrice);
     });
   }
 
-  // Função para adicionar produtos ao carrinho
   function addToCart(id, name, price) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existingProduct = cart.find((item) => item.id === id);
@@ -99,6 +95,5 @@ $(document).ready(function () {
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartUI(); // Atualiza o carrinho na interface, se necessário
   }
 });

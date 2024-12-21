@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
 app.use("/clients", clientsRouter);
 app.use("/products", productsRouter);
 app.use("/orders", ordersRouter);
+app.use("/recommendations", recommendationsRouter);
 
 
 
